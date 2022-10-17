@@ -21,12 +21,3 @@ function modulus(x, y) {
 function operate(operator, x, y) {
     return operator(x, y)
 }
-
-/* testing
-let x = 10, y=3;
-console.log(operate(add,x,y));
-console.log(operate(subtract,x,y));
-console.log(operate(multiply,x,y));
-console.log(operate(divide,x,y));
-console.log(operate(modulus,x,y));
-*/
