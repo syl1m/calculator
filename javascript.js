@@ -4,6 +4,7 @@ const subtractBtn = document.querySelector('.subtract');
 const multiplyBtn = document.querySelector('.multiply');
 const divideBtn = document.querySelector('.divide');
 const equalBtn = document.querySelector('.equals');
+const modBtn = document.querySelector('.MOD');
 const currentDisplay = document.querySelector('.current');
 const historyDisplay = document.querySelector('.history');
 
@@ -20,6 +21,7 @@ addBtn.addEventListener('click',(e) => setOperator(e, add));
 subtractBtn.addEventListener('click',(e) => setOperator(e, subtract));
 multiplyBtn.addEventListener('click',(e) => setOperator(e, multiply));
 divideBtn.addEventListener('click',(e) => setOperator(e, divide));
+modBtn.addEventListener('click',(e) => setOperator(e, modulus));
 
 function setOperator(e, operatorFn) {
     if (operator) evaluate();
