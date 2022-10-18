@@ -1,19 +1,54 @@
 const numberBtns = document.querySelectorAll('.number');
+const addBtn = document.querySelector('.add');
+const subtractBtn = document.querySelector('.subtract');
+const multiplyBtn = document.querySelector('.multiply');
+const divideBtn = document.querySelector('.divide');
+const equalBtn = document.querySelector('.equals');
 const currentDisplay = document.querySelector('.current');
-let displayValue;
-let numArray = [];
+
+let firstOperand,
+    secondOperand,
+    operator,
+    numArray = [];
 
 numberBtns.forEach(numberBtn => numberBtn.addEventListener('click',getNumber));
+equalBtn.addEventListener('click', evaluate);
 
+addBtn.addEventListener('click',() => setOperator(add));
+//subtractBtn.addEventListener('click',() => operator = subtract);
+//multiplyBtn.addEventListener('click',() => operator = multiply);
+//divideBtn.addEventListener('click',() => operator = divide);
+
+function setOperator(operatorFn) {
+    if (operator) evaluate();
+    operator = operatorFn;
+    if (numArray) numArray = [];
+} 
+
+function evaluate() {
+    if (operator && firstOperand && secondOperand) {
+        let result = (operate(operator, firstOperand, secondOperand));
+        displayCurrent(result);
+        firstOperand = result,
+        secondOperand = "",
+        operator = "",
+        numArray = [];
+    }
+}
 
 function getNumber(e) {
     numArray.push(e.target.innerText);
-    displayCurrent(Number(numArray.join("")));
+    const number = Number(numArray.join(""));
+    displayCurrent(number);
+    if (operator) {
+        return secondOperand = number;
+    } else {
+        return firstOperand = number; 
+    };
 }
 
 function displayCurrent(number) {
     currentDisplay.textContent = number;
-    return displayValue = number; 
 } 
 
 function add(x, y) {
@@ -37,5 +72,5 @@ function modulus(x, y) {
 }
 
 function operate(operator, x, y) {
-    return operator(x, y)
+    return operator(x, y);
 }
