@@ -37,11 +37,15 @@ function clearAll() {
 }
 
 function setOperator(e, operatorFn) {
-    if (operator) evaluate();
-    operator = operatorFn;
-    operatorSign = e.target.innerText;
-    if (numArray) numArray = [];
-    displayHistory();
+    if (firstOperand !== "") {
+        if (operator) evaluate();
+        operator = operatorFn;
+        operatorSign = e.target.innerText;
+        if (numArray) numArray = [];
+        displayHistory();
+    } else {
+        return;
+    }
 } 
 
 function evaluate() {
