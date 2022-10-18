@@ -15,9 +15,9 @@ numberBtns.forEach(numberBtn => numberBtn.addEventListener('click',getNumber));
 equalBtn.addEventListener('click', evaluate);
 
 addBtn.addEventListener('click',() => setOperator(add));
-//subtractBtn.addEventListener('click',() => operator = subtract);
-//multiplyBtn.addEventListener('click',() => operator = multiply);
-//divideBtn.addEventListener('click',() => operator = divide);
+subtractBtn.addEventListener('click',() => setOperator(subtract));
+multiplyBtn.addEventListener('click',() => setOperator(multiply));
+divideBtn.addEventListener('click',() => setOperator(divide));
 
 function setOperator(operatorFn) {
     if (operator) evaluate();
