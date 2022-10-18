@@ -6,6 +6,7 @@ const divideBtn = document.querySelector('.divide');
 const equalBtn = document.querySelector('.equals');
 const modBtn = document.querySelector('.MOD');
 const clearBtn = document.querySelector('.AC');
+const signChangeBtn = document.querySelector('.sign_change');
 const currentDisplay = document.querySelector('.current');
 const historyDisplay = document.querySelector('.history');
 
@@ -25,6 +26,19 @@ divideBtn.addEventListener('click',(e) => setOperator(e, divide));
 modBtn.addEventListener('click',(e) => setOperator(e, modulus));
 
 clearBtn.addEventListener('click',clearAll);
+signChangeBtn.addEventListener('click',signChange);
+
+function signChange() {
+    if (firstOperand !== "") {
+        if (!operator) {
+            firstOperand = -firstOperand;
+            displayCurrent(firstOperand);
+        } else if (secondOperand) {
+            secondOperand = -secondOperand;
+            displayCurrent(secondOperand);
+        };
+    }
+}
 
 function clearAll() {
     firstOperand = "",
