@@ -5,33 +5,39 @@ const multiplyBtn = document.querySelector('.multiply');
 const divideBtn = document.querySelector('.divide');
 const equalBtn = document.querySelector('.equals');
 const currentDisplay = document.querySelector('.current');
+const historyDisplay = document.querySelector('.history');
 
-let firstOperand,
-    secondOperand,
-    operator,
+let firstOperand = "",
+    secondOperand = "",
+    operator = "",
+    operatorSign = "",
     numArray = [];
 
 numberBtns.forEach(numberBtn => numberBtn.addEventListener('click',getNumber));
 equalBtn.addEventListener('click', evaluate);
 
-addBtn.addEventListener('click',() => setOperator(add));
-subtractBtn.addEventListener('click',() => setOperator(subtract));
-multiplyBtn.addEventListener('click',() => setOperator(multiply));
-divideBtn.addEventListener('click',() => setOperator(divide));
+addBtn.addEventListener('click',(e) => setOperator(e, add));
+subtractBtn.addEventListener('click',(e) => setOperator(e, subtract));
+multiplyBtn.addEventListener('click',(e) => setOperator(e, multiply));
+divideBtn.addEventListener('click',(e) => setOperator(e, divide));
 
-function setOperator(operatorFn) {
+function setOperator(e, operatorFn) {
     if (operator) evaluate();
     operator = operatorFn;
+    operatorSign = e.target.innerText;
     if (numArray) numArray = [];
+    displayHistory();
 } 
 
 function evaluate() {
-    if (operator && firstOperand && secondOperand) {
-        let result = (operate(operator, firstOperand, secondOperand));
+    if (operator && (firstOperand !== "") && (secondOperand !== "")) {
+        const result = (operate(operator, firstOperand, secondOperand));
         displayCurrent(result);
+        historyDisplay.textContent = `${firstOperand} ${operatorSign} ${secondOperand} = `;
         firstOperand = result,
         secondOperand = "",
         operator = "",
+        operatorSign = "",
         numArray = [];
     }
 }
@@ -41,15 +47,19 @@ function getNumber(e) {
     const number = Number(numArray.join(""));
     displayCurrent(number);
     if (operator) {
-        return secondOperand = number;
+        secondOperand = number;
     } else {
-        return firstOperand = number; 
+        firstOperand = number; 
     };
 }
 
 function displayCurrent(number) {
     currentDisplay.textContent = number;
-} 
+}
+
+function displayHistory() {
+    historyDisplay.textContent = `${firstOperand} ${operatorSign} ${secondOperand}`;
+}
 
 function add(x, y) {
     return x + y;

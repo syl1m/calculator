@@ -27,7 +27,7 @@ body {
     height: 125px;
 }
 
-.previous, .current {
+.history, .current {
     text-align: right;
     padding: 10px;
     font-size: 30px;
