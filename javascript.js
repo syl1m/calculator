@@ -46,8 +46,8 @@ function backspace() {
                 numArray = [];
                 displayCurrent();
             } else {
-                const number = numArray.join("");
-                secondOperand = number;
+                const numString = numArray.join("");
+                secondOperand = numString;
                 displayCurrent(secondOperand);
             }
         } else if (operator) {
@@ -61,8 +61,8 @@ function backspace() {
                 numArray = [];
                 displayCurrent();
             } else {
-                const number = numArray.join("");
-                firstOperand = number;
+                const numString = numArray.join("");
+                firstOperand = numString;
                 displayCurrent(firstOperand);
             }
         }
@@ -106,7 +106,8 @@ function setOperator(e, operatorFn) {
 
 function evaluate() {
     if (operator && (firstOperand !== "") && (secondOperand !== "")) {
-        const result = (operate(operator, firstOperand, secondOperand));
+        let result = (operate(operator, firstOperand, secondOperand));
+        if (!Number.isInteger(result)) result = +result.toFixed(5); // result is displayed up to 5 decimal points
         displayCurrent(result);
         historyDisplay.textContent = `${firstOperand} ${operatorSign} ${secondOperand} = `;
         firstOperand = result,
@@ -118,19 +119,21 @@ function evaluate() {
 }
 
 function getNumber(e) {
-    numArray.push(e.target.innerText);
-    if (numArray[0] === "0" && numArray[1] !== "." && numArray.length > 1) numArray.splice(0,1); // remove leading zeros
-    const number = numArray.join("");
-    displayCurrent(number);
-    if (operator) {
-        secondOperand = number;
-    } else {
-        firstOperand = number; 
-    };
+    if (numArray.length < 15) {
+        numArray.push(e.target.innerText);
+        if (numArray[0] === "0" && numArray[1] !== "." && numArray.length > 1) numArray.splice(0,1); // remove leading zeros
+        const numString = numArray.join("");
+        displayCurrent(numString);
+        if (operator) {
+            secondOperand = numString;
+        } else {
+            firstOperand = numString; 
+        };
+    }
 }
 
-function displayCurrent(number) {
-    currentDisplay.textContent = number;
+function displayCurrent(numString) {
+    currentDisplay.textContent = numString;
 }
 
 function displayHistory() {
