@@ -22,15 +22,36 @@ numberBtns.forEach(numberBtn => numberBtn.addEventListener('click',getNumber));
 equalBtn.addEventListener('click', evaluate);
 decimalBtn.addEventListener('click',addDecimal);
 
-addBtn.addEventListener('click',(e) => setOperator(e, add));
-subtractBtn.addEventListener('click',(e) => setOperator(e, subtract));
-multiplyBtn.addEventListener('click',(e) => setOperator(e, multiply));
-divideBtn.addEventListener('click',(e) => setOperator(e, divide));
-modBtn.addEventListener('click',(e) => setOperator(e, modulus));
+addBtn.addEventListener('click',() => setOperator("+", add));
+subtractBtn.addEventListener('click',() => setOperator("-", subtract));
+multiplyBtn.addEventListener('click',() => setOperator("x", multiply));
+divideBtn.addEventListener('click',() => setOperator("÷", divide));
+modBtn.addEventListener('click',() => setOperator("mod", modulus));
 
 clearBtn.addEventListener('click',clearAll);
 signChangeBtn.addEventListener('click',signChange);
 deleteBtn.addEventListener('click',backspace);
+
+document.addEventListener('keydown', event => {
+    if (event.key === "+") setOperator("+", add);
+    if (event.key === "-") setOperator("-", subtract);
+    if (event.key === "*") setOperator("x", multiply);
+    if (event.key === "/") setOperator("÷", divide);
+    if (event.key === "=") evaluate();
+    if (event.key === "Enter") evaluate();
+    if (event.key === "Backspace") backspace();
+    if (event.key === ".") addDecimal(event);
+    if (event.key === "0") getNumber(event);
+    if (event.key === "1") getNumber(event);
+    if (event.key === "2") getNumber(event);
+    if (event.key === "3") getNumber(event);
+    if (event.key === "4") getNumber(event);
+    if (event.key === "5") getNumber(event);
+    if (event.key === "6") getNumber(event);
+    if (event.key === "7") getNumber(event);
+    if (event.key === "8") getNumber(event);
+    if (event.key === "9") getNumber(event);
+})
 
 function addDecimal(e) {
     if (numArray.some(element => element === ".")) return
@@ -92,11 +113,11 @@ function clearAll() {
     displayHistory();
 }
 
-function setOperator(e, operatorFn) {
+function setOperator(sign, operatorFn) {
     if (firstOperand !== "") {
         if (operator) evaluate();
         operator = operatorFn;
-        operatorSign = e.target.innerText;
+        operatorSign = sign;
         if (numArray.length !== 0) numArray = [];
         displayHistory();
     } else {
@@ -129,7 +150,8 @@ function evaluate() {
 
 function getNumber(e) {
     if (numArray.length < 15) {
-        numArray.push(e.target.innerText);
+        if (e.type === 'click') numArray.push(e.target.innerText);
+        if (e.type === 'keydown') numArray.push(e.key);
         if (numArray[0] === "0" && numArray[1] !== "." && numArray.length > 1) numArray.splice(0,1); // remove leading zeros
         const numString = numArray.join("");
         displayCurrent(numString);
