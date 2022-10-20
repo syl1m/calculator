@@ -104,7 +104,16 @@ function setOperator(e, operatorFn) {
     }
 } 
 
+function runError() {
+    alert("Error! You can't divide by 0.");
+    clearAll();
+}
+
 function evaluate() {
+    if (operatorSign === "÷" && secondOperand == 0) {
+        runError();
+        return;
+    }
     if (operator && (firstOperand !== "") && (secondOperand !== "")) {
         let result = (operate(operator, firstOperand, secondOperand));
         if (!Number.isInteger(result)) result = +result.toFixed(5); // result is displayed up to 5 decimal points
