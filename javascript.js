@@ -8,6 +8,7 @@ const modBtn = document.querySelector('.MOD');
 const clearBtn = document.querySelector('.AC');
 const signChangeBtn = document.querySelector('.sign_change');
 const deleteBtn = document.querySelector('.DEL');
+const decimalBtn = document.querySelector('.decimal');
 const currentDisplay = document.querySelector('.current');
 const historyDisplay = document.querySelector('.history');
 
@@ -19,6 +20,7 @@ let firstOperand = "",
 
 numberBtns.forEach(numberBtn => numberBtn.addEventListener('click',getNumber));
 equalBtn.addEventListener('click', evaluate);
+decimalBtn.addEventListener('click',addDecimal);
 
 addBtn.addEventListener('click',(e) => setOperator(e, add));
 subtractBtn.addEventListener('click',(e) => setOperator(e, subtract));
@@ -30,6 +32,11 @@ clearBtn.addEventListener('click',clearAll);
 signChangeBtn.addEventListener('click',signChange);
 deleteBtn.addEventListener('click',backspace);
 
+function addDecimal(e) {
+    if (numArray.some(element => element === ".")) return
+    getNumber(e);
+}
+
 function backspace() {
     if (firstOperand !== "") {
         if (operator && (secondOperand !== "")) {
@@ -39,7 +46,7 @@ function backspace() {
                 numArray = [];
                 displayCurrent();
             } else {
-                const number = Number(numArray.join(""));
+                const number = numArray.join("");
                 secondOperand = number;
                 displayCurrent(secondOperand);
             }
@@ -54,7 +61,7 @@ function backspace() {
                 numArray = [];
                 displayCurrent();
             } else {
-                const number = Number(numArray.join(""));
+                const number = numArray.join("");
                 firstOperand = number;
                 displayCurrent(firstOperand);
             }
@@ -112,7 +119,8 @@ function evaluate() {
 
 function getNumber(e) {
     numArray.push(e.target.innerText);
-    const number = Number(numArray.join(""));
+    if (numArray[0] === "0" && numArray[1] !== "." && numArray.length > 1) numArray.splice(0,1); // remove leading zeros
+    const number = numArray.join("");
     displayCurrent(number);
     if (operator) {
         secondOperand = number;
@@ -130,7 +138,7 @@ function displayHistory() {
 }
 
 function add(x, y) {
-    return x + y;
+    return Number(x) + Number(y);
 }
 
 function subtract(x, y) {
