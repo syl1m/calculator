@@ -7,6 +7,7 @@ const equalBtn = document.querySelector('.equals');
 const modBtn = document.querySelector('.MOD');
 const clearBtn = document.querySelector('.AC');
 const signChangeBtn = document.querySelector('.sign_change');
+const deleteBtn = document.querySelector('.DEL');
 const currentDisplay = document.querySelector('.current');
 const historyDisplay = document.querySelector('.history');
 
@@ -27,6 +28,39 @@ modBtn.addEventListener('click',(e) => setOperator(e, modulus));
 
 clearBtn.addEventListener('click',clearAll);
 signChangeBtn.addEventListener('click',signChange);
+deleteBtn.addEventListener('click',backspace);
+
+function backspace() {
+    if (firstOperand !== "") {
+        if (operator && (secondOperand !== "")) {
+            numArray.pop();
+            if (numArray.length === 0 || (numArray.length === 1 && numArray[0] === "-")) {
+                secondOperand = "";
+                numArray = [];
+                displayCurrent();
+            } else {
+                const number = Number(numArray.join(""));
+                secondOperand = number;
+                displayCurrent(secondOperand);
+            }
+        } else if (operator) {
+            operator = "";
+            operatorSign = "";
+            displayHistory();
+        } else if (numArray.length !== 0) {
+            numArray.pop();
+            if (numArray.length === 0 || (numArray.length === 1 && numArray[0] === "-")) {
+                firstOperand = "";
+                numArray = [];
+                displayCurrent();
+            } else {
+                const number = Number(numArray.join(""));
+                firstOperand = number;
+                displayCurrent(firstOperand);
+            }
+        }
+    }
+}
 
 function signChange() {
     if (firstOperand !== "") {
@@ -37,6 +71,7 @@ function signChange() {
             secondOperand = -secondOperand;
             displayCurrent(secondOperand);
         };
+        if (numArray.length !== 0) (numArray[0] !== "-") ? numArray.unshift("-") : numArray.shift();
     }
 }
 
@@ -55,7 +90,7 @@ function setOperator(e, operatorFn) {
         if (operator) evaluate();
         operator = operatorFn;
         operatorSign = e.target.innerText;
-        if (numArray) numArray = [];
+        if (numArray.length !== 0) numArray = [];
         displayHistory();
     } else {
         return;
